@@ -50,7 +50,7 @@ justifyContent: "space-between",
 alignItems: "center",
 marginBottom: "30px",
 }}
-> <h2>Arc Predict</h2>
+> <h2>Arc Predict 🚀</h2>
   <div
     style={{
       display: "flex",
