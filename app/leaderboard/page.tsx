@@ -1,70 +1,70 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
 export default function LeaderboardPage() {
-  const users = [
-  {
-  rank: 1,
-  name: "TraderX",
-  profit: 4500,
-  },
-  {
-  rank: 2,
-  name: "ArcWhale",
-  profit: 3200,
-  },
-  {
-  rank: 3,
-  name: "CryptoKing",
-  profit: 1800,
-  },
-  {
-  rank: 4,
-  name: "MoonBoy",
-  profit: 900,
-  },
-  {
-  rank: 5,
-  name: "DiamondHands",
-  profit: 500,
-  },
-  ];
-  
+  const [users, setUsers] = useState<any[]>([]);
+
+  useEffect(() => {
+    const portfolio = JSON.parse(
+      localStorage.getItem("portfolio") || "[]"
+    );
+
+    const totalValue = portfolio.reduce(
+      (sum: number, position: any) =>
+        sum + position.shares,
+      0
+    );
+
+    setUsers([
+      {
+        name: "You",
+        value: totalValue,
+      },
+      {
+        name: "Trader Alpha",
+        value: 500,
+      },
+      {
+        name: "Trader Beta",
+        value: 250,
+      },
+    ]);
+  }, []);
+
+  const sorted = [...users].sort(
+    (a, b) => b.value - a.value
+  );
+
   return (
-  <main
-  style={{
-  minHeight: "100vh",
-  background: "#050505",
-  color: "white",
-  padding: "40px",
-  }}
-  > <h1>Leaderboard</h1>
-  
-  
-    {users.map((user) => (
-      <div
-        key={user.rank}
-        style={{
-          padding: "20px",
-          marginTop: "20px",
-          border: "1px solid #333",
-          borderRadius: "12px",
-          background: "#111",
-        }}
-      >
-        <h2>#{user.rank}</h2>
-  
-        <p>Name: {user.name}</p>
-  
-        <p
+    <main
+      style={{
+        minHeight: "100vh",
+        background: "#050505",
+        color: "white",
+        padding: "40px",
+      }}
+    >
+      <h1>Leaderboard</h1>
+
+      {sorted.map((user, index) => (
+        <div
+          key={index}
           style={{
-            color: "lightgreen",
-            fontWeight: "bold",
+            marginTop: "20px",
+            padding: "20px",
+            border: "1px solid #333",
+            borderRadius: "12px",
+            background: "#111",
           }}
         >
-          Profit: ${user.profit}
-        </p>
-      </div>
-    ))}
-  </main>
-  
+          <h2>
+            #{index + 1} {user.name}
+          </h2>
+
+          <p>Portfolio Value: ${user.value}</p>
+        </div>
+      ))}
+    </main>
   );
-  }
-  
+}
