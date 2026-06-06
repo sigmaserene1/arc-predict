@@ -3,50 +3,57 @@
 import { useEffect, useState } from "react";
 
 export default function ProfilePage() {
-const [balance, setBalance] = useState(0);
+  const [balance, setBalance] = useState(0);
+  const [positions, setPositions] = useState(0);
+  const [trades, setTrades] = useState(0);
 
-useEffect(() => {
-const savedBalance =
-localStorage.getItem("balance");
+  useEffect(() => {
+    const savedBalance = Number(
+      localStorage.getItem("balance") || "1000"
+    );
 
-if (savedBalance) {
-  setBalance(Number(savedBalance));
-}
+    const portfolio = JSON.parse(
+      localStorage.getItem("portfolio") || "[]"
+    );
 
-}, []);
+    const history = JSON.parse(
+      localStorage.getItem("tradeHistory") || "[]"
+    );
 
-return (
-<main
-style={{
-minHeight: "100vh",
-background: "#050505",
-color: "white",
-padding: "40px",
-}}
-> <h1>My Profile</h1>
+    setBalance(savedBalance);
+    setPositions(portfolio.length);
+    setTrades(history.length);
+  }, []);
 
-  <div
-    style={{
-      background: "#111",
-      padding: "25px",
-      borderRadius: "12px",
-      border: "1px solid #333",
-      maxWidth: "600px",
-    }}
-  >
-    <h2>Demo Trader</h2>
+  return (
+    <main
+      style={{
+        minHeight: "100vh",
+        background: "#050505",
+        color: "white",
+        padding: "40px",
+      }}
+    >
+      <h1>Profile</h1>
 
-    <p>Wallet: Connected ✅</p>
+      <div
+        style={{
+          marginTop: "30px",
+          padding: "25px",
+          background: "#111",
+          border: "1px solid #333",
+          borderRadius: "12px",
+          maxWidth: "600px",
+        }}
+      >
+        <h2>Trader Stats</h2>
 
-    <p>Balance: {balance} USDC</p>
+        <p>Balance: {balance} USDC</p>
 
-    <p>Total Markets Traded: 12</p>
+        <p>Open Positions: {positions}</p>
 
-    <p>Win Rate: 75%</p>
-
-    <p>Rank: #4</p>
-  </div>
-</main>
-
-);
+        <p>Total Trades: {trades}</p>
+      </div>
+    </main>
+  );
 }
