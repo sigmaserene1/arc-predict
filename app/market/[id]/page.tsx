@@ -24,32 +24,29 @@ const [winner, setWinner] = useState("");
 useEffect(() => {
   const savedYes = localStorage.getItem(`yes-${id}`);
   const savedNo = localStorage.getItem(`no-${id}`);
-  
-  if (savedYes) {
-  setYesShares(Number(savedYes));
-  }
-  
-  if (savedNo) {
-  setNoShares(Number(savedNo));
-  }
-  
-  const savedResolved = localStorage.getItem(
-  `resolved-${id}`
-  );
-  
-  const savedWinner = localStorage.getItem(
-  `winner-${id}`
-  );
-  
-  if (savedResolved === "true") {
-  setResolved(true);
-  }
-  
-  if (savedWinner) {
-  setWinner(savedWinner);
-  }
-  }, [id]);  
 
+  const savedResolved =
+    localStorage.getItem(`resolved-${id}`);
+
+  const savedWinner =
+    localStorage.getItem(`winner-${id}`);
+
+  if (savedYes) {
+    setYesShares(Number(savedYes));
+  }
+
+  if (savedNo) {
+    setNoShares(Number(savedNo));
+  }
+
+  if (savedResolved === "true") {
+    setResolved(true);
+  }
+
+  if (savedWinner) {
+    setWinner(savedWinner);
+  }
+}, [id]);
 if (!market) {
 return <h1>Market Not Found</h1>;
 }
