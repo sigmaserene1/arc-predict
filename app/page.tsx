@@ -100,13 +100,14 @@ export default function Home() {
             <MarketCard
             key={market.id}
             id={market.id}
-              question={market.question}
-              yes={market.yes}
-              no={market.no}
-              volume={market.volume}
-              category={market.category}
-              status={market.status}
-            />
+            question={market.question}
+            yes={market.yes}
+            no={market.no}
+            volume={market.volume}
+            category={market.category}
+            status={market.status}
+            endDate={market.endDate || "TBD"}
+          />
           ))}
         </div>
       </section>
@@ -154,18 +155,14 @@ export default function Home() {
               setMarketList([
                 ...marketList,
                 {
-                  id:
-                    Math.max(
-                      ...marketList.map((m) => m.id),
-                      0
-                    ) + 1,
+                  id: Math.max(...marketList.map((m) => m.id), 0) + 1,
                   category: "Custom",
                   question,
                   yes: 50,
                   no: 50,
                   volume: "$0",
-                  endDate,
                   status: "Open",
+                  endDate: endDate || "TBD",
                 }
               ]);
 
