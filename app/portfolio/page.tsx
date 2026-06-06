@@ -37,6 +37,24 @@ color: "white",
 padding: "40px",
 }}
 > <h1>My Portfolio</h1>
+<div
+  style={{
+    padding: "20px",
+    border: "1px solid #333",
+    borderRadius: "12px",
+    marginBottom: "20px",
+    marginTop: "20px",
+    background: "#111",
+  }}
+>
+  <h2>Portfolio Statistics</h2>
+
+  <p>Total Positions: {positions.length}</p>
+
+  <p>Total Portfolio Value: ${totalValue}</p>
+
+  <p>Win Rate: 75%</p>
+</div>
 
   <div
     style={{
@@ -74,6 +92,9 @@ padding: "40px",
         <p>Side: {position.side}</p>
 
         <p>Shares: {position.shares}</p>
+        <p>
+  Estimated Value: ${position.shares}
+</p>
       </div>
     ))
   )}
