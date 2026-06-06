@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { markets as initialMarkets } from "./markets";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
@@ -11,7 +11,14 @@ export default function Home() {
   const [question, setQuestion] = useState("");
   const [endDate, setEndDate] = useState("");
   const [marketList, setMarketList] = useState(initialMarkets);
-
+  useEffect(() => {
+    const savedMarkets =
+      localStorage.getItem("markets");
+  
+    if (savedMarkets) {
+      setMarketList(JSON.parse(savedMarkets));
+    }
+  }, []);
 
 
   return (
@@ -152,10 +159,14 @@ export default function Home() {
             onClick={() => {
               if (!question) return;
 
-              setMarketList([
+              const newMarkets = [
                 ...marketList,
                 {
-                  id: Math.max(...marketList.map((m) => m.id), 0) + 1,
+                  id:
+                    Math.max(
+                      ...marketList.map((m) => m.id),
+                      0
+                    ) + 1,
                   category: "Custom",
                   question,
                   yes: 50,
@@ -163,9 +174,15 @@ export default function Home() {
                   volume: "$0",
                   status: "Open",
                   endDate: endDate || "TBD",
-                }
-              ]);
-
+                },
+              ];
+              
+              setMarketList(newMarkets);
+              
+              localStorage.setItem(
+                "markets",
+                JSON.stringify(newMarkets)
+              );
               setQuestion("");
               setEndDate("");
             }}
