@@ -43,7 +43,7 @@ localStorage.setItem(
 return (
 <nav
 style={{
-ddisplay: "flex",
+display: "flex",
 flexWrap: "wrap",
 gap: "20px",
 justifyContent: "space-between",
