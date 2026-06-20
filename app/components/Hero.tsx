@@ -1,28 +1,71 @@
 export default function Hero() {
-    return (
-      <section
+  return (
+    <section
+      style={{
+        marginTop: "60px",
+        textAlign: "center",
+      }}
+    >
+      <h1
         style={{
-          textAlign: "center",
-          marginTop: "120px",
+          fontSize: "80px",
+          fontWeight: "bold",
+          lineHeight: 1,
         }}
       >
-        <h1
+        ARC
+        <br />
+        PREDICT
+      </h1>
+
+      <p
+        style={{
+          marginTop: "20px",
+          fontSize: "22px",
+          color: "#bbb",
+        }}
+      >
+        Trade prediction markets on Arc Testnet
+      </p>
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          gap: "20px",
+          marginTop: "40px",
+        }}
+      >
+        <button
           style={{
-            fontSize: "64px",
+            background: "#C6FF00",
+            color: "#000",
+            border: "none",
+            padding: "15px 35px",
+            borderRadius: "18px",
             fontWeight: "bold",
+            fontSize: "18px",
+            cursor: "pointer",
           }}
         >
-          Predict The Future
-        </h1>
-  
-        <p
+          Start Trading
+        </button>
+
+        <button
           style={{
-            fontSize: "22px",
-            marginTop: "20px",
+            background: "#3454FF",
+            color: "white",
+            border: "none",
+            padding: "15px 35px",
+            borderRadius: "18px",
+            fontWeight: "bold",
+            fontSize: "18px",
+            cursor: "pointer",
           }}
         >
-          Create and trade prediction markets on Arc Testnet
-        </p>
-      </section>
-    );
-  }
+          Explore Markets
+        </button>
+      </div>
+    </section>
+  );
+}

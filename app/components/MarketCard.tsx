@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 
 type MarketCardProps = {
@@ -7,8 +9,8 @@ yes: number;
 no: number;
 volume: string;
 category: string;
-endDate: string;
-status: string;
+status?: string;
+endDate?: string;
 };
 
 export default function MarketCard({
@@ -18,86 +20,174 @@ yes,
 no,
 volume,
 category,
-endDate,
 status,
+endDate,
 }: MarketCardProps) {
+const deleteMarket = () => {
+const savedMarkets = JSON.parse(
+localStorage.getItem("markets") || "[]"
+);
+const updatedMarkets = savedMarkets.filter(
+  (market: any) => market.id !== id
+);
+
+localStorage.setItem(
+  "markets",
+  JSON.stringify(updatedMarkets)
+);
+
+window.location.reload();
+
+};
+
 return (
-<Link
-href={`/market/${id}`}
+<div
 style={{
-textDecoration: "none",
+background:
+"linear-gradient(135deg,#3454FF,#2538C7)",
+borderRadius: "32px",
+padding: "30px",
 color: "white",
+boxShadow:
+"0 10px 30px rgba(0,0,0,0.4)",
 }}
 >
 <div
-onMouseEnter={(e) => {
-e.currentTarget.style.transform = "translateY(-4px)";
-}}
-onMouseLeave={(e) => {
-e.currentTarget.style.transform = "translateY(0px)";
-}}
 style={{
-padding: "24px",
-width: "100%",
-maxWidth: "900px",
-border: "1px solid #333",
-borderRadius: "16px",
-background: "#111",
-cursor: "pointer",
-boxShadow: "0 0 12px rgba(255,255,255,0.05)",
-transition: "0.2s",
+display: "flex",
+justifyContent: "space-between",
+alignItems: "center",
+marginBottom: "15px",
 }}
-> <h3>{question}</h3>
+>
+<span
+style={{
+background: "rgba(255,255,255,0.15)",
+padding: "6px 12px",
+borderRadius: "999px",
+fontSize: "13px",
+}}
+>
+{category} </span>
+    {status && (
+      <span
+        style={{
+          color: "#C6FF00",
+          fontWeight: "bold",
+        }}
+      >
+        {status}
+      </span>
+    )}
+  </div>
 
-    <p>Category: {category}</p>
+  <h2
+    style={{
+      fontSize: "28px",
+      marginBottom: "15px",
+    }}
+  >
+    {question}
+  </h2>
 
-    <p>
-      {status === "Open"
-        ? "🟢 Open"
-        : "🔴 Resolved"}
-    </p>
+  <p
+    style={{
+      opacity: 0.9,
+    }}
+  >
+    Volume: {volume}
+  </p>
 
-    <p>YES: {yes}%</p>
-    <p>NO: {no}%</p>
-
-    <p>Volume: {volume}</p>
-
-    <p>Ends: {endDate}</p>
-
-    <div
+  {endDate && (
+    <p
       style={{
-        display: "flex",
-        gap: "10px",
-        marginTop: "20px",
+        opacity: 0.9,
       }}
     >
-      <button
-        style={{
-          padding: "10px 20px",
-          background: "green",
-          color: "white",
-          border: "none",
-          borderRadius: "8px",
-          cursor: "pointer",
-        }}
-      >
-        Buy YES
-      </button>
+      End Date: {endDate}
+    </p>
+  )}
 
+  <div
+    style={{
+      display: "flex",
+      gap: "15px",
+      marginTop: "25px",
+    }}
+  >
+    <button
+      style={{
+        flex: 1,
+        background: "#C6FF00",
+        color: "#000",
+        border: "none",
+        padding: "18px",
+        borderRadius: "20px",
+        fontSize: "20px",
+        fontWeight: "bold",
+        cursor: "pointer",
+      }}
+    >
+      YES {yes}%
+    </button>
+
+    <button
+      style={{
+        flex: 1,
+        background: "#FF2D2D",
+        color: "white",
+        border: "none",
+        padding: "18px",
+        borderRadius: "20px",
+        fontSize: "20px",
+        fontWeight: "bold",
+        cursor: "pointer",
+      }}
+    >
+      NO {no}%
+    </button>
+  </div>
+
+  <div
+    style={{
+      display: "flex",
+      gap: "12px",
+      marginTop: "25px",
+    }}
+  >
+    <Link href={`/market/${id}`}>
       <button
         style={{
-          padding: "10px 20px",
-          background: "red",
-          color: "white",
+          background: "white",
+          color: "#111",
           border: "none",
-          borderRadius: "8px",
+          padding: "12px 20px",
+          borderRadius: "16px",
+          fontWeight: "bold",
           cursor: "pointer",
         }}
       >
-        Buy NO
+        View Market
       </button>
-    </div>
+    </Link>
+
+    {category === "Custom" && (
+      <button
+        onClick={deleteMarket}
+        style={{
+          background: "#111",
+          color: "white",
+          border: "1px solid #444",
+          padding: "12px 20px",
+          borderRadius: "16px",
+          cursor: "pointer",
+        }}
+      >
+        Delete
+      </button>
+    )}
   </div>
-</Link>
+</div>
+
 );
 }

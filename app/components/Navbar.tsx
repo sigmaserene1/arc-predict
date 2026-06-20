@@ -42,15 +42,18 @@ localStorage.setItem(
 
 return (
 <nav
-style={{
-display: "flex",
-flexWrap: "wrap",
-gap: "20px",
-justifyContent: "space-between",
-alignItems: "center",
-marginBottom: "30px",
-}}
-> <h2>Arc Predict 🚀</h2>
+  style={{
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "20px 30px",
+    background: "#111",
+    borderRadius: "20px",
+    border: "2px solid #222",
+    marginBottom: "30px",
+  }}
+>
+ <h2>Arc Predict 🚀</h2>
   <div
     style={{
       display: "flex",
@@ -87,7 +90,9 @@ marginBottom: "30px",
     >
       Portfolio
     </Link>
-
+    <Link href="/create">
+  Create
+</Link>
     <Link
       href="/leaderboard"
       style={{
@@ -132,9 +137,12 @@ marginBottom: "30px",
     <button
       onClick={connectWallet}
       style={{
-        padding: "10px 20px",
-        borderRadius: "10px",
+        background: "#C6FF00",
+        color: "#000",
         border: "none",
+        padding: "12px 22px",
+        borderRadius: "15px",
+        fontWeight: "bold",
         cursor: "pointer",
       }}
     >

@@ -1,14 +1,25 @@
 "use client";
 
-import { useState } from "react";
-import { markets } from "../markets";
+import { useEffect, useState } from "react";
+import { markets as defaultMarkets } from "../markets";
 import MarketCard from "../components/MarketCard";
 
 export default function MarketsPage() {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
+  const [marketsList, setMarketsList] =
+    useState(defaultMarkets);
 
-  const filteredMarkets = markets
+  useEffect(() => {
+    const savedMarkets =
+      localStorage.getItem("markets");
+
+    if (savedMarkets) {
+      setMarketsList(JSON.parse(savedMarkets));
+    }
+  }, []);
+
+  const filteredMarkets = marketsList
     .filter((market) => {
       if (category === "All") return true;
       return market.category === category;
