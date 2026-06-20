@@ -38,6 +38,17 @@ const resolvedMarkets = marketList.filter(
 (m) => m.status === "Resolved"
 ).length;
 
+const featuredMarket = [...marketList]
+  .sort(
+    (a, b) =>
+      Number(
+        b.volume.replace("$", "")
+      ) -
+      Number(
+        a.volume.replace("$", "")
+      )
+  )[0];
+
 const trendingMarkets = [...marketList]
 .sort(
 (a, b) =>
@@ -64,6 +75,21 @@ padding: "40px",
 }}
 > <Hero />
 
+<section
+  style={{
+    background: "#111",
+    padding: "30px",
+    borderRadius: "20px",
+    marginTop: "40px",
+    border: "1px solid #222",
+  }}
+>
+  <h2>🔥 Featured Market</h2>
+
+  <h3>{featuredMarket?.question}</h3>
+
+  <p>Volume: {featuredMarket?.volume}</p>
+</section>
   <section
     style={{
       marginTop: "50px",

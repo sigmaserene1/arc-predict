@@ -22,31 +22,28 @@ const [resolved, setResolved] = useState(false);
 const [winner, setWinner] = useState("");
 
 useEffect(() => {
-  const savedYes = localStorage.getItem(`yes-${id}`);
-  const savedNo = localStorage.getItem(`no-${id}`);
+const savedYes = localStorage.getItem(`yes-${id}`);
+const savedNo = localStorage.getItem(`no-${id}`);
 
-  const savedResolved =
-    localStorage.getItem(`resolved-${id}`);
+const savedResolved =
+  localStorage.getItem(`resolved-${id}`);
 
-  const savedWinner =
-    localStorage.getItem(`winner-${id}`);
+const savedWinner =
+  localStorage.getItem(`winner-${id}`);
 
-  if (savedYes) {
-    setYesShares(Number(savedYes));
-  }
+if (savedYes) setYesShares(Number(savedYes));
+if (savedNo) setNoShares(Number(savedNo));
 
-  if (savedNo) {
-    setNoShares(Number(savedNo));
-  }
+if (savedResolved === "true") {
+  setResolved(true);
+}
 
-  if (savedResolved === "true") {
-    setResolved(true);
-  }
+if (savedWinner) {
+  setWinner(savedWinner);
+}
 
-  if (savedWinner) {
-    setWinner(savedWinner);
-  }
 }, [id]);
+
 if (!market) {
 return <h1>Market Not Found</h1>;
 }
@@ -68,7 +65,7 @@ padding: "40px",
       marginTop: "30px",
       padding: "25px",
       border: "1px solid #333",
-      borderRadius: "12px",
+      borderRadius: "16px",
       maxWidth: "700px",
       background: "#111",
     }}
@@ -80,14 +77,19 @@ padding: "40px",
     <p>End Date: {market.endDate}</p>
 
     <p>
-      Status: {resolved ? "🔴 Resolved" : "🟢 Open"}
+      Status:
+      {resolved
+        ? " 🔴 Resolved"
+        : " 🟢 Open"}
     </p>
 
     <input
       type="number"
       placeholder="Amount (USDC)"
       value={amount}
-      onChange={(e) => setAmount(e.target.value)}
+      onChange={(e) =>
+        setAmount(e.target.value)
+      }
       style={{
         marginTop: "20px",
         padding: "12px",
@@ -109,14 +111,13 @@ padding: "40px",
             alert("Market already resolved");
             return;
           }
+
           const value = Number(amount || 0);
 
-          const storedBalance =
-          localStorage.getItem("balance");
-        
-        const currentBalance = storedBalance
-          ? Number(storedBalance)
-          : 1000;
+          const currentBalance = Number(
+            localStorage.getItem("balance") ||
+              "1000"
+          );
 
           if (value > currentBalance) {
             alert("Not enough balance");
@@ -128,43 +129,49 @@ padding: "40px",
             String(currentBalance - value)
           );
 
-          const newYes = yesShares + value;
-
-          const oldTrades = JSON.parse(
-            localStorage.getItem("tradeHistory") ||
-              "[]"
-          );
-
-          oldTrades.push({
-            market: market.question,
-            side: "YES",
-            amount: value,
-            time: new Date().toLocaleString(),
-          });
-          const portfolio = JSON.parse(
-            localStorage.getItem("portfolio") || "[]"
-          );
-          
-          portfolio.push({
-            market: market.question,
-            side: "YES",
-            shares: value,
-          });
-          
-          localStorage.setItem(
-            "portfolio",
-            JSON.stringify(portfolio)
-          );
-          localStorage.setItem(
-            "tradeHistory",
-            JSON.stringify(oldTrades)
-          );
+          const newYes =
+            yesShares + value;
 
           setYesShares(newYes);
 
           localStorage.setItem(
             `yes-${id}`,
             String(newYes)
+          );
+
+          const trades = JSON.parse(
+            localStorage.getItem(
+              "tradeHistory"
+            ) || "[]"
+          );
+
+          trades.push({
+            market: market.question,
+            side: "YES",
+            amount: value,
+            time: new Date().toLocaleString(),
+          });
+
+          localStorage.setItem(
+            "tradeHistory",
+            JSON.stringify(trades)
+          );
+
+          const portfolio = JSON.parse(
+            localStorage.getItem(
+              "portfolio"
+            ) || "[]"
+          );
+
+          portfolio.push({
+            market: market.question,
+            side: "YES",
+            shares: value,
+          });
+
+          localStorage.setItem(
+            "portfolio",
+            JSON.stringify(portfolio)
           );
 
           setMessage(
@@ -175,12 +182,12 @@ padding: "40px",
         }}
         style={{
           padding: "12px 24px",
-          background: "green",
-          color: "white",
+          background: "#C6FF00",
+          color: "black",
           border: "none",
-          borderRadius: "8px",
+          borderRadius: "999px",
+          fontWeight: "bold",
           cursor: "pointer",
-          opacity: resolved ? 0.5 : 1,
         }}
       >
         Buy YES
@@ -192,14 +199,13 @@ padding: "40px",
             alert("Market already resolved");
             return;
           }
+
           const value = Number(amount || 0);
 
-          const storedBalance =
-  localStorage.getItem("balance");
-
-const currentBalance = storedBalance
-  ? Number(storedBalance)
-  : 1000;
+          const currentBalance = Number(
+            localStorage.getItem("balance") ||
+              "1000"
+          );
 
           if (value > currentBalance) {
             alert("Not enough balance");
@@ -211,43 +217,49 @@ const currentBalance = storedBalance
             String(currentBalance - value)
           );
 
-          const newNo = noShares + value;
-
-          const oldTrades = JSON.parse(
-            localStorage.getItem("tradeHistory") ||
-              "[]"
-          );
-
-          oldTrades.push({
-            market: market.question,
-            side: "NO",
-            amount: value,
-            time: new Date().toLocaleString(),
-          });
-          const portfolio = JSON.parse(
-            localStorage.getItem("portfolio") || "[]"
-          );
-          
-          portfolio.push({
-            market: market.question,
-            side: "NO",
-            shares: value,
-          });
-          
-          localStorage.setItem(
-            "portfolio",
-            JSON.stringify(portfolio)
-          );
-          localStorage.setItem(
-            "tradeHistory",
-            JSON.stringify(oldTrades)
-          );
+          const newNo =
+            noShares + value;
 
           setNoShares(newNo);
 
           localStorage.setItem(
             `no-${id}`,
             String(newNo)
+          );
+
+          const trades = JSON.parse(
+            localStorage.getItem(
+              "tradeHistory"
+            ) || "[]"
+          );
+
+          trades.push({
+            market: market.question,
+            side: "NO",
+            amount: value,
+            time: new Date().toLocaleString(),
+          });
+
+          localStorage.setItem(
+            "tradeHistory",
+            JSON.stringify(trades)
+          );
+
+          const portfolio = JSON.parse(
+            localStorage.getItem(
+              "portfolio"
+            ) || "[]"
+          );
+
+          portfolio.push({
+            market: market.question,
+            side: "NO",
+            shares: value,
+          });
+
+          localStorage.setItem(
+            "portfolio",
+            JSON.stringify(portfolio)
           );
 
           setMessage(
@@ -258,10 +270,11 @@ const currentBalance = storedBalance
         }}
         style={{
           padding: "12px 24px",
-          background: "red",
+          background: "#FF4D4D",
           color: "white",
           border: "none",
-          borderRadius: "8px",
+          borderRadius: "999px",
+          fontWeight: "bold",
           cursor: "pointer",
         }}
       >
@@ -271,114 +284,78 @@ const currentBalance = storedBalance
 
     <div
       style={{
-        marginTop: "25px",
         display: "flex",
-        gap: "10px",
+        gap: "12px",
+        marginTop: "20px",
       }}
     >
       <button
-      disabled={resolved}
-  onClick={() => {
-    setResolved(true);
-    setWinner("YES");
-    const history = JSON.parse(
-      localStorage.getItem("tradeHistory") || "[]"
-    );
-    
-    history.push({
-      market: market.question,
-      side: "RESOLVED YES",
-      amount: yesShares,
-      time: new Date().toLocaleString(),
-    });
-    
-    localStorage.setItem(
-      "tradeHistory",
-      JSON.stringify(history)
-    );const history = JSON.parse(
-  localStorage.getItem("tradeHistory") || "[]"
-);
+        disabled={resolved}
+        onClick={() => {
+          setResolved(true);
+          setWinner("YES");
 
-history.push({
-  market: market.question,
-  side: "RESOLVED YES",
-  amount: yesShares,
-  time: new Date().toLocaleString(),
-});
+          localStorage.setItem(
+            `resolved-${id}`,
+            "true"
+          );
 
-localStorage.setItem(
-  "tradeHistory",
-  JSON.stringify(history)
-);
-    const reward = yesShares;
+          localStorage.setItem(
+            `winner-${id}`,
+            "YES"
+          );
 
-const currentBalance = Number(
-  localStorage.getItem("balance") || "1000"
-);
+          const reward =
+            yesShares;
 
-localStorage.setItem(
-  "balance",
-  String(currentBalance + reward)
-);
+          const balance = Number(
+            localStorage.getItem(
+              "balance"
+            ) || "1000"
+          );
 
-    localStorage.setItem(
-      `resolved-${id}`,
-      "true"
-    );
+          localStorage.setItem(
+            "balance",
+            String(balance + reward)
+          );
+        }}
+      >
+        Resolve YES
+      </button>
 
-    localStorage.setItem(
-      `winner-${id}`,
-      "YES"
-    );
-  }}
->
-  Resolve YES
-</button>
+      <button
+        disabled={resolved}
+        onClick={() => {
+          setResolved(true);
+          setWinner("NO");
 
-<button
- disabled={resolved}
-  onClick={() => {
-    setResolved(true);
-    setWinner("NO");
-    const history = JSON.parse(
-      localStorage.getItem("tradeHistory") || "[]"
-    );
-    
-    history.push({
-      market: market.question,
-      side: "RESOLVED NO",
-      amount: noShares,
-      time: new Date().toLocaleString(),
-    });
-    
-    localStorage.setItem(
-      "tradeHistory",
-      JSON.stringify(history)
-    );
-    const reward = noShares;
+          localStorage.setItem(
+            `resolved-${id}`,
+            "true"
+          );
 
-const currentBalance = Number(
-  localStorage.getItem("balance") || "1000"
-);
+          localStorage.setItem(
+            `winner-${id}`,
+            "NO"
+          );
 
-localStorage.setItem(
-  "balance",
-  String(currentBalance + reward)
-);
+          const reward =
+            noShares;
 
-    localStorage.setItem(
-      `resolved-${id}`,
-      "true"
-    );
+          const balance = Number(
+            localStorage.getItem(
+              "balance"
+            ) || "1000"
+          );
 
-    localStorage.setItem(
-      `winner-${id}`,
-      "NO"
-    );
-  }}
->
-  Resolve NO
-</button>
+          localStorage.setItem(
+            "balance",
+            String(balance + reward)
+          );
+        }}
+      >
+        Resolve NO
+      </button>
     </div>
 
     <p style={{ marginTop: "20px" }}>
@@ -388,8 +365,7 @@ localStorage.setItem(
     {winner && (
       <h3
         style={{
-          marginTop: "20px",
-          color: "lightgreen",
+          color: "#C6FF00",
         }}
       >
         Winner: {winner}
@@ -403,13 +379,20 @@ localStorage.setItem(
 
     <p>
       Estimated Value: $
-      {(yesShares * currentYesPrice) / 100}
+      {(yesShares *
+        currentYesPrice) /
+        100}
     </p>
 
-    <div style={{ marginTop: "30px" }}>
+    <div
+      style={{
+        marginTop: "30px",
+      }}
+    >
       <PriceChart />
     </div>
   </div>
 </main>
+
 );
 }

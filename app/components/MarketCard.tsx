@@ -27,6 +27,8 @@ const deleteMarket = () => {
 const savedMarkets = JSON.parse(
 localStorage.getItem("markets") || "[]"
 );
+
+```
 const updatedMarkets = savedMarkets.filter(
   (market: any) => market.id !== id
 );
@@ -37,19 +39,19 @@ localStorage.setItem(
 );
 
 window.location.reload();
+```
 
 };
 
 return (
 <div
 style={{
-background:
-"linear-gradient(135deg,#3454FF,#2538C7)",
-borderRadius: "32px",
-padding: "30px",
+background: "#111111",
+border: "1px solid #222",
+borderRadius: "24px",
+padding: "24px",
 color: "white",
-boxShadow:
-"0 10px 30px rgba(0,0,0,0.4)",
+transition: "0.2s",
 }}
 >
 <div
@@ -62,17 +64,22 @@ marginBottom: "15px",
 >
 <span
 style={{
-background: "rgba(255,255,255,0.15)",
+background: "#1a1a1a",
+border: "1px solid #333",
 padding: "6px 12px",
 borderRadius: "999px",
-fontSize: "13px",
+fontSize: "12px",
 }}
 >
 {category} </span>
+
     {status && (
       <span
         style={{
-          color: "#C6FF00",
+          color:
+            status === "Resolved"
+              ? "#C6FF00"
+              : "#999",
           fontWeight: "bold",
         }}
       >
@@ -83,36 +90,68 @@ fontSize: "13px",
 
   <h2
     style={{
-      fontSize: "28px",
-      marginBottom: "15px",
+      fontSize: "24px",
+      marginBottom: "20px",
+      lineHeight: "1.4",
     }}
   >
     {question}
   </h2>
 
-  <p
+  <div
     style={{
-      opacity: 0.9,
+      marginBottom: "15px",
     }}
   >
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        marginBottom: "8px",
+      }}
+    >
+      <span style={{ color: "#C6FF00" }}>
+        YES {yes}%
+      </span>
+
+      <span style={{ color: "#FF4D4D" }}>
+        NO {no}%
+      </span>
+    </div>
+
+    <div
+      style={{
+        height: "10px",
+        background: "#222",
+        borderRadius: "999px",
+        overflow: "hidden",
+      }}
+    >
+      <div
+        style={{
+          width: `${yes}%`,
+          height: "100%",
+          background: "#C6FF00",
+        }}
+      />
+    </div>
+  </div>
+
+  <p style={{ color: "#999" }}>
     Volume: {volume}
   </p>
 
   {endDate && (
-    <p
-      style={{
-        opacity: 0.9,
-      }}
-    >
-      End Date: {endDate}
+    <p style={{ color: "#999" }}>
+      Ends: {endDate}
     </p>
   )}
 
   <div
     style={{
       display: "flex",
-      gap: "15px",
-      marginTop: "25px",
+      gap: "12px",
+      marginTop: "20px",
     }}
   >
     <button
@@ -121,50 +160,46 @@ fontSize: "13px",
         background: "#C6FF00",
         color: "#000",
         border: "none",
-        padding: "18px",
-        borderRadius: "20px",
-        fontSize: "20px",
+        padding: "14px",
+        borderRadius: "999px",
         fontWeight: "bold",
-        cursor: "pointer",
       }}
     >
-      YES {yes}%
+      YES
     </button>
 
     <button
       style={{
         flex: 1,
-        background: "#FF2D2D",
+        background: "#FF4D4D",
         color: "white",
         border: "none",
-        padding: "18px",
-        borderRadius: "20px",
-        fontSize: "20px",
+        padding: "14px",
+        borderRadius: "999px",
         fontWeight: "bold",
-        cursor: "pointer",
       }}
     >
-      NO {no}%
+      NO
     </button>
   </div>
 
   <div
     style={{
       display: "flex",
-      gap: "12px",
-      marginTop: "25px",
+      gap: "10px",
+      marginTop: "20px",
     }}
   >
     <Link href={`/market/${id}`}>
       <button
         style={{
           background: "white",
-          color: "#111",
+          color: "black",
           border: "none",
-          padding: "12px 20px",
-          borderRadius: "16px",
-          fontWeight: "bold",
+          padding: "10px 18px",
+          borderRadius: "999px",
           cursor: "pointer",
+          fontWeight: "bold",
         }}
       >
         View Market
@@ -175,11 +210,11 @@ fontSize: "13px",
       <button
         onClick={deleteMarket}
         style={{
-          background: "#111",
+          background: "#1a1a1a",
           color: "white",
-          border: "1px solid #444",
-          padding: "12px 20px",
-          borderRadius: "16px",
+          border: "1px solid #333",
+          padding: "10px 18px",
+          borderRadius: "999px",
           cursor: "pointer",
         }}
       >
