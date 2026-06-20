@@ -89,8 +89,16 @@ padding: "40px",
       >
         <h3>{position.market}</h3>
 
-        <p>Side: {position.side}</p>
-
+        <p
+  style={{
+    color:
+      position.side === "YES"
+        ? "#C6FF00"
+        : "#FF4040",
+  }}
+>
+  Side: {position.side}
+</p>
         <p>Shares: {position.shares}</p>
         <p>
   Estimated Value: ${position.shares}

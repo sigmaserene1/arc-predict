@@ -105,6 +105,10 @@ padding: "40px",
     >
       <button
         onClick={() => {
+          if (resolved) {
+            alert("Market already resolved");
+            return;
+          }
           const value = Number(amount || 0);
 
           const storedBalance =
@@ -184,6 +188,10 @@ padding: "40px",
 
       <button
         onClick={() => {
+          if (resolved) {
+            alert("Market already resolved");
+            return;
+          }
           const value = Number(amount || 0);
 
           const storedBalance =
@@ -273,6 +281,45 @@ const currentBalance = storedBalance
   onClick={() => {
     setResolved(true);
     setWinner("YES");
+    const history = JSON.parse(
+      localStorage.getItem("tradeHistory") || "[]"
+    );
+    
+    history.push({
+      market: market.question,
+      side: "RESOLVED YES",
+      amount: yesShares,
+      time: new Date().toLocaleString(),
+    });
+    
+    localStorage.setItem(
+      "tradeHistory",
+      JSON.stringify(history)
+    );const history = JSON.parse(
+  localStorage.getItem("tradeHistory") || "[]"
+);
+
+history.push({
+  market: market.question,
+  side: "RESOLVED YES",
+  amount: yesShares,
+  time: new Date().toLocaleString(),
+});
+
+localStorage.setItem(
+  "tradeHistory",
+  JSON.stringify(history)
+);
+    const reward = yesShares;
+
+const currentBalance = Number(
+  localStorage.getItem("balance") || "1000"
+);
+
+localStorage.setItem(
+  "balance",
+  String(currentBalance + reward)
+);
 
     localStorage.setItem(
       `resolved-${id}`,
@@ -293,6 +340,31 @@ const currentBalance = storedBalance
   onClick={() => {
     setResolved(true);
     setWinner("NO");
+    const history = JSON.parse(
+      localStorage.getItem("tradeHistory") || "[]"
+    );
+    
+    history.push({
+      market: market.question,
+      side: "RESOLVED NO",
+      amount: noShares,
+      time: new Date().toLocaleString(),
+    });
+    
+    localStorage.setItem(
+      "tradeHistory",
+      JSON.stringify(history)
+    );
+    const reward = noShares;
+
+const currentBalance = Number(
+  localStorage.getItem("balance") || "1000"
+);
+
+localStorage.setItem(
+  "balance",
+  String(currentBalance + reward)
+);
 
     localStorage.setItem(
       `resolved-${id}`,

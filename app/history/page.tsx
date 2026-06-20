@@ -40,7 +40,16 @@ export default function HistoryPage() {
           >
             <h3>{trade.market}</h3>
 
-            <p>Side: {trade.side}</p>
+            <p
+  style={{
+    color:
+      trade.side.includes("YES")
+        ? "#C6FF00"
+        : "#FF4040",
+  }}
+>
+  Side: {trade.side}
+</p>
 
             <p>Amount: {trade.amount} USDC</p>
 
